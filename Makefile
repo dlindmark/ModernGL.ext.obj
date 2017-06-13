@@ -6,3 +6,6 @@ endif
 
 all:
 	$(PYTHON) -m pip install -U .
+
+wheel:
+	$(PYTHON) setup.py bdist_wheel --universal
