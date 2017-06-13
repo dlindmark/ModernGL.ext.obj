@@ -38,7 +38,7 @@ def loads(text, texcoords=True, normals=True, *, xyz=tuple) -> bytes:
         if match:
             obj[match.group(1)].append(xyz(map(float, match.group(2, 4, 6))))
             continue
-        
+
         match = re.match(r'^f\s+(\d+)(/(\d+)?(/(\d+))?)?\s+(\d+)(/(\d+)?(/(\d+))?)?\s+(\d+)(/(\d+)?(/(\d+))?)?$', line)
         if match:
             for v, vt, vn in (match.group(1, 3, 5), match.group(6, 8, 10), match.group(11, 13, 15)):
