@@ -46,7 +46,7 @@ def loads(text, texcoords=True, normals=True, *, xyz=tuple) -> bytes:
                 if vt is not None and texcoords:
                     data.extend(struct.pack('3f', *obj['vt'][int(vt)]))
                 if vn is not None and normals:
-                    data.extend(struct.pack('3f', *obj['vn'][int(vt)]))
+                    data.extend(struct.pack('3f', *obj['vn'][int(vn)]))
             continue
 
         log.debug('unknown line: "%s"', line)
