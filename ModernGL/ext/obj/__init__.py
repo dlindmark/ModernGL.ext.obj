@@ -6,6 +6,10 @@ import logging
 import re
 import struct
 
+from .objects import Obj, default_packer
+
+__all__ = ['Obj', 'default_packer', 'loads', 'load']
+
 log = logging.getLogger('ModernGL.ext.obj')
 
 
@@ -21,6 +25,8 @@ def loads(text, texcoords=True, normals=True, *, xyz=tuple) -> bytes:
         Keyword Args:
             xyz (lambda): Called on v, vn and vt.
     '''
+
+    # log.warn('[DEPRECATED] use the Obj class instead')
 
     lines = [x.strip() for x in text.splitlines()]
     lines = filter(lambda x: x and not x.startswith('#'), lines)
@@ -66,6 +72,8 @@ def load(filename, *, texcoords=True, normals=True, xyz=tuple) -> bytes:
         Keyword Args:
             xyz (lambda): Called on v, vn and vt.
     '''
+
+    # log.warn('[DEPRECATED] use the Obj class instead')
 
     with open(filename, 'r') as f:
         return loads(f.read(), texcoords, normals, xyz=xyz)
