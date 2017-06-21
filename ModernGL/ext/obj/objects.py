@@ -35,15 +35,15 @@ class Obj:
     '''
 
     @staticmethod
-    def open(filename):
+    def open(filename) -> 'Obj':
         return Obj.fromstring(open(filename).read())
 
     @staticmethod
-    def frombytes(data):
+    def frombytes(data) -> 'Obj':
         return Obj.fromstring(data.decode())
 
     @staticmethod
-    def fromstring(data):
+    def fromstring(data) -> 'Obj':
 
         vert = []
         text = []
@@ -107,7 +107,7 @@ class Obj:
         self.norm = norm
         self.face = face
 
-    def pack(self, packer=default_packer):
+    def pack(self, packer=default_packer) -> bytes:
         if isinstance(packer, str):
             nodes = packer.split()
             packer = eval(PACKER % (len(nodes), ', '.join(nodes)))
