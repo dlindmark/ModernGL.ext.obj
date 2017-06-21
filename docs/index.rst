@@ -3,7 +3,8 @@ ModernGL.ext.obj
 
 ModernGL extension for loading obj files.
 
-ModernGL.ext.obj on `Github <https://github.com/cprogrammer1994/ModernGL.ext.obj>`_
+- `ModernGL.ext.obj on Github <https://github.com/cprogrammer1994/ModernGL.ext.obj>`_
+- `ModernGL.ext.obj on PyPI <https://pypi.python.org/pypi/ModernGL.ext.obj>`_
 
 Install
 -------

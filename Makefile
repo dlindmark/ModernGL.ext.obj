@@ -9,3 +9,8 @@ all:
 
 wheel:
 	$(PYTHON) setup.py bdist_wheel --universal
+
+docs:
+	$(PYTHON) setup.py build_sphinx
+
+.PHONY: all wheel docs

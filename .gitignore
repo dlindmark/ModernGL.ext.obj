@@ -1,10 +1,10 @@
-**/python-embed
+ModernGL/*
+!ModernGL/ext
+ModernGL/ext/__init__.py
+
 **/__pycache__
-**/Temp
 **/build
 **/dist
-
-build.py
 
 .tox
 .cache
