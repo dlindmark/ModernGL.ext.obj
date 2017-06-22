@@ -19,8 +19,8 @@ project = 'ModernGL.ext.obj'
 copyright = '2017, Szabolcs Dombi'
 author = 'Szabolcs Dombi'
 
-version = '0.1.0'
-release = '0.1.0'
+version = '0.3.0'
+release = '0.3.0'
 
 language = None
 

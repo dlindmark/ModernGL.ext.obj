@@ -10,6 +10,8 @@ from .objects import Obj, default_packer
 
 __all__ = ['Obj', 'default_packer', 'loads', 'load']
 
+__version__ = '0.3.0'
+
 log = logging.getLogger('ModernGL.ext.obj')
 
 
