@@ -14,10 +14,10 @@ RE_TEXT = re.compile(r'^vt\s+(-?\d+(\.\d+)?)\s+(-?\d+(\.\d+)?)(\s+(-?\d+(\.\d+)?
 RE_NORM = re.compile(r'^vn\s+(-?\d+(\.\d+)?)\s+(-?\d+(\.\d+)?)\s+(-?\d+(\.\d+)?)$')
 RE_FACE = re.compile(r'^f\s+(\d+)(/(\d+)?(/(\d+))?)?\s+(\d+)(/(\d+)?(/(\d+))?)?\s+(\d+)(/(\d+)?(/(\d+))?)?$')
 
-PACKER = 'lambda i, vx, vy, vz, tx, ty, tz, nx, ny, nz: struct.pack("%df", %s)'
+PACKER = 'lambda vx, vy, vz, tx, ty, tz, nx, ny, nz: struct.pack("%df", %s)'
 
 
-def default_packer(i, vx, vy, vz, tx, ty, tz, nx, ny, nz):
+def default_packer(vx, vy, vz, tx, ty, tz, nx, ny, nz):
     return struct.pack('9f', vx, vy, vz, tx, ty, tz, nx, ny, nz)
 
 
@@ -31,19 +31,71 @@ def safe_float(x):
 
 class Obj:
     '''
-        Obj class
+        Wavefront .obj file
     '''
 
     @staticmethod
     def open(filename) -> 'Obj':
+        '''
+            Args:
+                filename (str): The filename.
+
+            Returns:
+                Obj: The object.
+
+            Examples:
+
+                .. code-block:: python
+
+                    import ModernGL
+                    from ModernGL.ext import obj
+
+                    model = obj.Obj.open('box.obj')
+        '''
+
         return Obj.fromstring(open(filename).read())
 
     @staticmethod
     def frombytes(data) -> 'Obj':
+        '''
+            Args:
+                data (bytes): The obj file content.
+
+            Returns:
+                Obj: The object.
+
+            Examples:
+
+                .. code-block:: python
+
+                    import ModernGL
+                    from ModernGL.ext import obj
+
+                    content = open('box.obj', 'rb').read()
+                    model = obj.Obj.frombytes(content)
+        '''
+
         return Obj.fromstring(data.decode())
 
     @staticmethod
     def fromstring(data) -> 'Obj':
+        '''
+            Args:
+                data (str): The obj file content.
+
+            Returns:
+                Obj: The object.
+
+            Examples:
+
+                .. code-block:: python
+
+                    import ModernGL
+                    from ModernGL.ext import obj
+
+                    content = open('box.obj').read()
+                    model = obj.Obj.fromstring(content)
+        '''
 
         vert = []
         text = []
@@ -110,16 +162,51 @@ class Obj:
         self.face = face
 
     def pack(self, packer=default_packer) -> bytes:
+        '''
+            Args:
+                packer (str or lambda): The vertex attributes to pack.
+
+            Returns:
+                bytes: The packed vertex data.
+
+            Examples:
+
+                .. code-block:: python
+
+                    import ModernGL
+                    from ModernGL.ext import obj
+
+                    model = obj.Obj.open('box.obj')
+
+                    # default packer
+                    data = model.pack()
+
+                    # same as the default packer
+                    data = model.pack('vx vy vz tx ty tz nx ny nz')
+
+                    # pack vertices
+                    data = model.pack('vx vy vz')
+
+                    # pack vertices and texture coordinates (xy)
+                    data = model.pack('vx vy vz tx ty')
+
+                    # pack vertices and normals
+                    data = model.pack('vx vy vz nx ny nz')
+
+                    # pack vertices with padding
+                    data = model.pack('vx vy vz 0.0')
+        '''
+
         if isinstance(packer, str):
             nodes = packer.split()
             packer = eval(PACKER % (len(nodes), ', '.join(nodes)))
 
         result = bytearray()
 
-        for i, (v, t, n) in enumerate(self.face):
+        for v, t, n in self.face:
             vx, vy, vz = self.vert[v - 1]
             tx, ty, tz = self.text[t - 1] if t is not None else (0.0, 0.0, 0.0)
             nx, ny, nz = self.norm[n - 1] if n is not None else (0.0, 0.0, 0.0)
-            result += packer(i, vx, vy, vz, tx, ty, tz, nx, ny, nz)
+            result += packer(vx, vy, vz, tx, ty, tz, nx, ny, nz)
 
         return bytes(result)
