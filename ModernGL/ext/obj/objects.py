@@ -14,7 +14,7 @@ RE_TEXT = re.compile(r'^vt\s+(-?\d+(\.\d+)?)\s+(-?\d+(\.\d+)?)(\s+(-?\d+(\.\d+)?
 RE_NORM = re.compile(r'^vn\s+(-?\d+(\.\d+)?)\s+(-?\d+(\.\d+)?)\s+(-?\d+(\.\d+)?)$')
 RE_FACE = re.compile(r'^f\s+(\d+)(/(\d+)?(/(\d+))?)?\s+(\d+)(/(\d+)?(/(\d+))?)?\s+(\d+)(/(\d+)?(/(\d+))?)?$')
 
-PACKER = 'lambda i, face, vx, vy, vz, tx, ty, tz, nx, ny, nz: struct.pack("%df", %s)'
+PACKER = 'lambda i, vx, vy, vz, tx, ty, tz, nx, ny, nz: struct.pack("%df", %s)'
 
 
 def default_packer(i, vx, vy, vz, tx, ty, tz, nx, ny, nz):
@@ -53,6 +53,8 @@ class Obj:
         data = RE_COMMENT.sub('\n', data)
 
         for line in data.splitlines():
+            line = line.strip()
+
             if not line:
                 continue
 
