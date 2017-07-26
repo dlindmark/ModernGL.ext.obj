@@ -144,7 +144,7 @@ class Obj:
         if not face:
             raise Exception('empty')
 
-        v0, t0, n0 = face[0]
+        t0, n0 = face[0][1:3]
 
         for v, t, n in face:
             if (t0 is None) ^ (t is None):
