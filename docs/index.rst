@@ -40,8 +40,5 @@ Documentation
 	.. automethod:: fromstring(data) -> Obj
 	.. automethod:: pack(packer=default_packer) -> bytes
 
-.. autofunction:: loads(text, texcoords=True, normals=True, xyz=tuple) -> bytes
-.. autofunction:: load(filename, texcoords=True, normals=True, xyz=tuple) -> bytes
-
 .. toctree::
    :maxdepth: 2
