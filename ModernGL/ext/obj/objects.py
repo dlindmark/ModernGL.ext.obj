@@ -10,7 +10,7 @@ log = logging.getLogger('ModernGL.ext.obj')
 
 RE_COMMENT = re.compile(r'#[^\n]*\n', flags=re.M)
 RE_VERT = re.compile(r'^v\s+(-?\d+(?:\.\d+)?(?:[E e]-?\d+)?)\s+(-?\d+(?:\.\d+)?(?:[E e]-?\d+)?)\s+(-?\d+(?:\.\d+)?(?:[E e]-?\d+)?)$')
-RE_TEXT = re.compile(r'^vt\s+(-?\d+(\.\d+)?(?:[E e]-?\d+)?)\s+(-?\d+(\.\d+)?(?:[E e]-?\d+)?)(\s+(-?\d+(\.\d+)?(?:[E e]-?\d+)?))?$')
+RE_TEXT = re.compile(r'^vt\s+(-?\d+(?:\.\d+)?(?:[E e]-?\d+)?)\s+(-?\d+(?:\.\d+)?(?:[E e]-?\d+)?)(?:\s+(-?\d+(?:\.\d+)?(?:[E e]-?\d+)?))?$')
 RE_NORM = re.compile(r'^vn\s+(-?\d+(?:\.\d+)?(?:[E e]-?\d+)?)\s+(-?\d+(?:\.\d+)?(?:[E e]-?\d+)?)\s+(-?\d+(?:\.\d+)?(?:[E e]-?\d+)?)$')
 RE_FACE = re.compile(r'^f\s+(\d+)(/(\d+)?(/(\d+))?)?\s+(\d+)(/(\d+)?(/(\d+))?)?\s+(\d+)(/(\d+)?(/(\d+))?)?$')
 
@@ -117,7 +117,6 @@ class Obj:
                 continue
 
             match = RE_TEXT.match(line)
-
             if match:
                 text.append(tuple(map(safe_float, match.group(1, 2, 3))))
                 continue
