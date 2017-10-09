@@ -9,9 +9,9 @@ import struct
 log = logging.getLogger('ModernGL.ext.obj')
 
 RE_COMMENT = re.compile(r'#[^\n]*\n', flags=re.M)
-RE_VERT = re.compile(r'^v\s+(-?\d+(\.\d+)?)\s+(-?\d+(\.\d+)?)\s+(-?\d+(\.\d+)?)$')
-RE_TEXT = re.compile(r'^vt\s+(-?\d+(\.\d+)?)\s+(-?\d+(\.\d+)?)(\s+(-?\d+(\.\d+)?))?$')
-RE_NORM = re.compile(r'^vn\s+(-?\d+(\.\d+)?)\s+(-?\d+(\.\d+)?)\s+(-?\d+(\.\d+)?)$')
+RE_VERT = re.compile(r'^v\s+(-?\d+(?:\.\d+)?(?:[Ee]-?\d+)?)\s+(-?\d+(?:\.\d+)?(?:[Ee]-?\d+)?)\s+(-?\d+(?:\.\d+)?(?:[Ee]-?\d+)?)$')
+RE_TEXT = re.compile(r'^vt\s+(-?\d+(?:\.\d+)?(?:[Ee]-?\d+)?)\s+(-?\d+(?:\.\d+)?(?:[Ee]-?\d+)?)(?:\s+(-?\d+(?:\.\d+)?(?:[Ee]-?\d+)?))?$')
+RE_NORM = re.compile(r'^vn\s+(-?\d+(?:\.\d+)?(?:[Ee]-?\d+)?)\s+(-?\d+(?:\.\d+)?(?:[Ee]-?\d+)?)\s+(-?\d+(?:\.\d+)?(?:[Ee]-?\d+)?)$')
 RE_FACE = re.compile(r'^f\s+(\d+)(/(\d+)?(/(\d+))?)?\s+(\d+)(/(\d+)?(/(\d+))?)?\s+(\d+)(/(\d+)?(/(\d+))?)?$')
 
 PACKER = 'lambda vx, vy, vz, tx, ty, tz, nx, ny, nz: struct.pack("%df", %s)'
@@ -113,19 +113,18 @@ class Obj:
             match = RE_VERT.match(line)
 
             if match:
-                vert.append(tuple(map(safe_float, match.group(1, 3, 5))))
+                vert.append(tuple(map(safe_float, match.groups())))
                 continue
 
             match = RE_TEXT.match(line)
-
             if match:
-                text.append(tuple(map(safe_float, match.group(1, 3, 6))))
+                text.append(tuple(map(safe_float, match.groups())))
                 continue
 
             match = RE_NORM.match(line)
 
             if match:
-                norm.append(tuple(map(safe_float, match.group(1, 3, 5))))
+                norm.append(tuple(map(safe_float, match.groups())))
                 continue
 
             match = RE_FACE.match(line)
