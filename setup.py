@@ -8,7 +8,7 @@ else:
 
 setup(
 	name='ModernGL.ext.obj',
-	version='0.3.0',
+	version='0.4.0',
 	description='ModernGL extension for loading obj files',
 	url='https://github.com/cprogrammer1994/ModernGL.ext.obj',
 	author='Szabolcs Dombi',
